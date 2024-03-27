@@ -92,34 +92,37 @@ func (wt *WhatsAppTracker) GetStatus(user string) (time.Time, error) {
 	if strings.Contains(status, "conectat") || strings.Contains(status, "scrie") {
 		return time.Now(), nil
 	} else if strings.Contains(status, "ultima") {
-		status = strings.Replace(status, "ultima accesare: ", "", 1)
-		status = strings.Replace(status, "azi", "today", 1)
-		status = strings.Replace(status, "ieri", "yesterday", 1)
-		status = strings.Replace(status, "acum", "now", 1)
-		status = strings.Replace(status, "la", "at", 1)
-		status = strings.Replace(status, "luni", "monday", 1)
-		status = strings.Replace(status, "marti", "tuesday", 1)
-		status = strings.Replace(status, "miercuri", "wednesday", 1)
-		status = strings.Replace(status, "joi", "thursday", 1)
-		status = strings.Replace(status, "vineri", "friday", 1)
-		status = strings.Replace(status, "sambata", "saturday", 1)
-		status = strings.Replace(status, "duminica", "sunday", 1)
-		status = strings.Replace(status, "ianuarie", "january", 1)
-		status = strings.Replace(status, "februarie", "february", 1)
-		status = strings.Replace(status, "martie", "march", 1)
-		status = strings.Replace(status, "aprilie", "april", 1)
-		status = strings.Replace(status, "mai", "may", 1)
-		status = strings.Replace(status, "iunie", "june", 1)
-		status = strings.Replace(status, "iulie", "july", 1)
-		status = strings.Replace(status, "august", "august", 1)
-		status = strings.Replace(status, "septembrie", "september", 1)
-		status = strings.Replace(status, "octombrie", "october", 1)
-		status = strings.Replace(status, "noiembrie", "november", 1)
-		status = strings.Replace(status, "decembrie", "december", 1)
-		status = strings.Replace(status, " p.m.", "pm", 1)
-		status = strings.Replace(status, " a.m.", "am", 1)
-		status = strings.Replace(status, "p.m.", "pm", 1)
-		status = strings.Replace(status, "a.m.", "am", 1)
+		replacer := strings.NewReplacer(
+				"ultima accesare: ", "", // remove this prefix
+				"azi", "today",
+				"ieri", "yesterday",
+				"acum", "now",
+				"la", "at",
+				"luni", "monday",
+				"marti", "tuesday",
+				"miercuri", "wednesday",
+				"joi", "thursday",
+				"vineri", "friday",
+				"sambata", "saturday",
+				"duminica", "sunday",
+				"ianuarie", "january",
+				"februarie", "february",
+				"martie", "march",
+				"aprilie", "april",
+				"mai", "may",
+				"iunie", "june",
+				"iulie", "july",
+				"septembrie", "september",
+				"octombrie", "october",
+				"noiembrie", "november",
+				"decembrie", "december",
+				" p.m.", "pm",
+				" a.m.", "am",
+				"p.m.", "pm",
+				"a.m.", "am",
+		)
+
+		status = replacer.Replace(status)
 
 		time, err := anytime.Parse(status, time.Now())
 		if err != nil {
